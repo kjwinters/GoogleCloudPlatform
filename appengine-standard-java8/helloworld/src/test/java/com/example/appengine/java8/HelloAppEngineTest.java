@@ -34,6 +34,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
 
 /**
  * Unit tests for {@link HelloAppEngine}.
@@ -49,6 +51,7 @@ public class HelloAppEngineTest {
   @Mock private HttpServletResponse mockResponse;
   private StringWriter responseWriter;
   private HelloAppEngine servletUnderTest;
+  private Closeable closeable;
 
   @Before
   public void setUp() throws Exception {
@@ -63,10 +66,14 @@ public class HelloAppEngineTest {
     when(mockResponse.getWriter()).thenReturn(new PrintWriter(responseWriter));
 
     servletUnderTest = new HelloAppEngine();
+    com.googlecode.objectify.ObjectifyService.init();
+    closeable = ObjectifyService.begin();
+    com.googlecode.objectify.ObjectifyService.register(Car.class);
   }
 
   @After public void tearDown() {
     helper.tearDown();
+    closeable.close();
   }
 
   @Test
