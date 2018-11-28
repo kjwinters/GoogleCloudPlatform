@@ -22,14 +22,12 @@ import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Car {
-    @Id
-    Long id;
-    @Index
-    String license;
-    int color;
+  @Id Long id;
+  @Index String license;
+  int color;
 
-    public Car(String license, int color) {
-        this.license = license;
-        this.color = color;
-    }
+  public Car(String license, int color) {
+    this.license = license;
+    this.color = color;
+  }
 }
